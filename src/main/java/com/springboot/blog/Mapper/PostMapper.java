@@ -1,4 +1,4 @@
-package com.springboot.blog.PostMapper;
+package com.springboot.blog.Mapper;
 
 import com.springboot.blog.entity.Post;
 import com.springboot.blog.payload.PostDto;
