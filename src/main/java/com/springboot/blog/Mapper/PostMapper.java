@@ -3,6 +3,8 @@ package com.springboot.blog.Mapper;
 import com.springboot.blog.entity.Post;
 import com.springboot.blog.payload.PostDto;
 
+import java.util.stream.Collectors;
+
 public class PostMapper {
 
     // convert post to map postDto
@@ -12,6 +14,9 @@ public class PostMapper {
                 .title(post.getTitle())
                 .description(post.getDescription())
                 .content(post.getContent())
+                .comments(post.getComments().stream()
+                        .map(CommentMapper::mapToCommentDto)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
