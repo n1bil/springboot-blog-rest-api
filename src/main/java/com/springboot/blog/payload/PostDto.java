@@ -20,7 +20,7 @@ public class PostDto {
     // title should not be null or empty
     // title should have at least 2 characters
     @NotEmpty
-    @Size(min = 2, message = "Post title must have at least 2 charters")
+    @Size(min = 2, message = "Post title must have at least 2 characters")
     private String title;
 
     // post description should not be null or empty
