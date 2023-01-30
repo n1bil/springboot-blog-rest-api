@@ -1,7 +1,4 @@
-package com.springboot.blog.Mapper;
-
-import com.springboot.blog.entity.Comment;
-import com.springboot.blog.payload.CommentDto;
+package com.springboot.blog.mapper;
 
 public class CommentMapper {
 

@@ -1,9 +1,4 @@
-package com.springboot.blog.Mapper;
-
-import com.springboot.blog.entity.Post;
-import com.springboot.blog.payload.PostDto;
-
-import java.util.stream.Collectors;
+package com.springboot.blog.mapper;
 
 public class PostMapper {
 //
