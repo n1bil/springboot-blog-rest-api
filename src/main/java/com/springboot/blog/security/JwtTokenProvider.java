@@ -22,7 +22,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt-secret}")
     private String jwtSecret;
 
-    @Value("{app.jwt-expiration-millisecond}")
+    @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
     // generate JWT token
@@ -53,7 +53,7 @@ public class JwtTokenProvider {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
     }
