@@ -4,6 +4,7 @@ import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import com.springboot.blog.utils.AppConstants;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class PostController {
     }
 
     // create blog post
+    @Operation(summary = "Create post REST API")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/v1/posts")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
@@ -30,6 +32,7 @@ public class PostController {
     }
 
     // get all posts API
+    @Operation(summary = "Get all posts REST API")
     @GetMapping("/api/v1/posts")
     public PostResponse getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -40,12 +43,14 @@ public class PostController {
         return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
     }
 
+    @Operation(summary = "Get post by id REST API")
     @GetMapping(value = "/api/v1/posts/{id}")
     public ResponseEntity<PostDto> getPostByIdV1(@PathVariable("id") Long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
     // update post by id rest api
+    @Operation(summary = "Update post by id REST API")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/v1/posts/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto,
@@ -58,6 +63,7 @@ public class PostController {
     // delete post rest api
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/api/v1/posts/{id}")
+    @Operation(summary = "Delete post by id REST API")
     public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
         postService.deletePostById(id);
 
@@ -66,6 +72,7 @@ public class PostController {
 
     // Build get Posts by category REST API
     // http://localhost:8080/api/posts/category/1
+    @Operation(summary = "get post by category REST API")
     @GetMapping("/api/v1/posts/category/{id}")
     public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable("id") Long categoryId) {
         List<PostDto> posts = postService.getPostsByCategory(categoryId);

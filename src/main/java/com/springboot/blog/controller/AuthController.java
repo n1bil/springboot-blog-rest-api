@@ -4,6 +4,7 @@ import com.springboot.blog.entity.LoginDto;
 import com.springboot.blog.entity.RegisterDto;
 import com.springboot.blog.payload.JWTAuthResponse;
 import com.springboot.blog.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class AuthController {
     }
 
     // Build login REST API
+    @Operation(summary = "REST API to sign in or login user to blog app")
     @PostMapping(value = {"/login", "/signin"})
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDto loginDto) {
         String token = authService.login(loginDto);
@@ -33,6 +35,7 @@ public class AuthController {
     }
 
     // Build register REST API
+    @Operation(summary = "REST API to register or sign up user to blog app")
     @PostMapping(value = {"/register", "/signup"})
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         String response = authService.register(registerDto);
