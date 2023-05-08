@@ -1,4 +1,4 @@
-package com.springboot.blog.entity;
+package com.springboot.blog.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterDto {
+public class LoginDto {
 
-    private String name;
-    private String username;
-    private String email;
+    private String usernameOrEmail;
     private String password;
 }

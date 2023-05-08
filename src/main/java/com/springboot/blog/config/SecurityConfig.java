@@ -1,7 +1,7 @@
 package com.springboot.blog.config;
 
+import com.springboot.blog.security.JwAuthenticationFilter;
 import com.springboot.blog.security.JwtAuthenticationEntryPoint;
-import com.springboot.blog.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,18 +18,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
-    private JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private JwtAuthenticationFilter authenticationFilter;
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private JwAuthenticationFilter jwAuthenticationFilter;
 
     public SecurityConfig(UserDetailsService userDetailsService,
-                          JwtAuthenticationEntryPoint authenticationEntryPoint,
-                          JwtAuthenticationFilter authenticationFilter) {
+                          JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                          JwAuthenticationFilter jwAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFilter = authenticationFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwAuthenticationFilter = jwAuthenticationFilter;
     }
 
     @Bean
@@ -46,23 +46,19 @@ public class SecurityConfig  {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-                .authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().authenticated()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                                .requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/v3/api-docs/**").permitAll()
-                                .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers("/swagger-resources/**").permitAll()
-                                .requestMatchers("/swagger-ui.html").permitAll()
-                                .requestMatchers("/webjars/**").permitAll()
-                                .anyRequest().authenticated()
-                ).exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                ).sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                .authorizeHttpRequests(authorize ->
+//                        authorize.anyRequest().authenticated()
+                                authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                        .requestMatchers("/api/auth/**").permitAll()
+                                        .requestMatchers("/swagger-ui/**").permitAll()
+                                        .requestMatchers("/v3/api-docs/**").permitAll()
+                                        .anyRequest().authenticated()
+                ).exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                ).sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -80,6 +76,7 @@ public class SecurityConfig  {
 //                .password(passwordEncoder().encode("admin"))
 //                .roles("ADMIN")
 //                .build();
+//
 //        return new InMemoryUserDetailsManager(nabil, admin);
 //    }
 

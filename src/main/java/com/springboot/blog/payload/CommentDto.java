@@ -1,27 +1,32 @@
 package com.springboot.blog.payload;
 
-import lombok.Data;
+import lombok.*;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CommentDto {
-    private long id;
-    // name should not be null or empty
-    @NotEmpty(message = "Name should not be null or empty")
+
+    private Long id;
+
+    // name should not be empty
+    @NotEmpty(message = "Name must not be empty")
     private String name;
 
-    // email should not be null or empty
+    // email should not be empty
     // email field validation
-    @NotEmpty(message = "Email should not be null or empty")
+    @NotEmpty(message = "Email must not be empty")
     @Email
     private String email;
 
-    // comment body should not be bull or empty
-    // Comment body must be minimum 10 characters
-    @NotEmpty
+    // content should not be empty
+    @NotEmpty(message = "content must not be empty")
     @Size(min = 10, message = "Comment body must be minimum 10 characters")
-    private String message;
+    private String content;
 }
